@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>QuanTrad — Journal de Trading Desktop</title>
+  <meta name="description" content="Journal de trading desktop 100% local. Analysez vos performances, respectez votre plan, progressez. Achat unique 129,99€."/>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Unbounded:wght@700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:#080e1a; --card:#111827; --border:#1e293b; --border2:#2d4057;
+      --text:#f1f5f9; --muted:#94a3b8; --sub:#64748b;
+      --violet:#8b5cf6; --violet2:#7c3aed;
+      --emerald:#10b981; --amber:#f59e0b; --rose:#f43f5e; --sky:#38bdf8;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden;}
+
+    .navbar{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:14px 48px;background:rgba(8,14,26,0.85);backdrop-filter:blur(12px);border-bottom:1px solid rgba(139,92,246,0.12);}
+    .nav-logo{font-family:'Unbounded',sans-serif;font-size:18px;font-weight:800;letter-spacing:-0.02em;}
+    .nav-logo .q{color:#8b5cf6}.nav-logo .uan{color:#3d4a5c}.nav-logo .t{color:#f59e0b}.nav-logo .rad{color:#3d4a5c}
+    .lang-switcher{display:flex;gap:4px;background:rgba(255,255,255,0.05);border:1px solid var(--border2);border-radius:8px;padding:3px;}
+    .lang-btn{background:none;border:none;color:var(--sub);font-size:12px;font-weight:700;padding:4px 10px;border-radius:5px;cursor:pointer;transition:all 0.15s;font-family:'Space Grotesk',sans-serif;letter-spacing:0.05em;}
+    .lang-btn.active{background:var(--violet);color:#fff;}
+    .btn-primary{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--violet),var(--violet2));color:#fff;border:none;border-radius:12px;padding:14px 28px;font-size:15px;font-weight:600;cursor:pointer;text-decoration:none;transition:all 0.2s;box-shadow:0 8px 32px rgba(139,92,246,0.35);font-family:'Space Grotesk',sans-serif;}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(139,92,246,0.5);}
+    .btn-outline{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--muted);border:1px solid var(--border2);border-radius:12px;padding:14px 24px;font-size:14px;font-weight:500;cursor:pointer;text-decoration:none;transition:all 0.2s;font-family:'Space Grotesk',sans-serif;}
+    .btn-outline:hover{border-color:var(--violet);color:var(--violet);}
+
+    .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 80px;position:relative;z-index:1;}
+    .hero-glow{position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(139,92,246,0.14) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
+    .hero-symbol{width:180px;height:180px;margin-bottom:36px;filter:drop-shadow(0 0 50px rgba(139,92,246,0.5)) drop-shadow(0 0 20px rgba(245,158,11,0.2));animation:fadeUp 0.7s ease both;}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.25);border-radius:100px;padding:6px 18px;font-size:12px;font-weight:600;color:var(--violet);letter-spacing:0.06em;margin-bottom:24px;animation:fadeUp 0.7s 0.1s ease both;}
+    .hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--emerald);box-shadow:0 0 8px var(--emerald);}
+    .hero-title{font-family:'Unbounded',sans-serif;font-size:clamp(36px,6vw,76px);font-weight:900;line-height:1.05;letter-spacing:-0.03em;margin-bottom:20px;animation:fadeUp 0.7s 0.15s ease both;}
+    .hero-title .v{color:var(--violet)}.hero-title .a{color:var(--amber)}
+    .hero-slogan{font-size:clamp(15px,2vw,18px);color:var(--muted);max-width:520px;margin:0 auto 10px;font-weight:400;line-height:1.7;animation:fadeUp 0.7s 0.2s ease both;}
+    .hero-tagline{font-size:12px;color:var(--sub);margin-bottom:36px;letter-spacing:0.08em;text-transform:uppercase;animation:fadeUp 0.7s 0.25s ease both;}
+    .hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;animation:fadeUp 0.7s 0.3s ease both;}
+    .hero-price{margin-top:18px;font-size:13px;color:var(--sub);animation:fadeUp 0.7s 0.35s ease both;}
+    .hero-price strong{color:var(--emerald);}
+
+    .stats{display:flex;justify-content:center;gap:56px;flex-wrap:wrap;padding:48px 24px 80px;border-top:1px solid rgba(255,255,255,0.04);position:relative;z-index:1;}
+    .stat{text-align:center;}
+    .stat-value{font-family:'Unbounded',sans-serif;font-size:34px;font-weight:900;letter-spacing:-0.03em;color:var(--text);}
+    .stat-label{font-size:11px;color:var(--sub);text-transform:uppercase;letter-spacing:0.1em;margin-top:4px;}
+
+    .divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:0 48px;}
+
+    section{position:relative;z-index:1;padding:96px 24px;max-width:1100px;margin:0 auto;}
+    .section-label{font-size:11px;text-transform:uppercase;letter-spacing:0.12em;color:var(--violet);font-weight:700;margin-bottom:14px;}
+    .section-title{font-family:'Unbounded',sans-serif;font-size:clamp(28px,4.5vw,48px);font-weight:900;letter-spacing:-0.03em;line-height:1.1;margin-bottom:16px;}
+    .section-sub{font-size:16px;color:var(--muted);font-weight:400;max-width:540px;margin-bottom:56px;line-height:1.7;}
+
+    /* FEATURES GRID — 4 colonnes puis 4 colonnes */
+    /* CAROUSEL */
+    .carousel-wrap{position:relative;width:100%;max-width:960px;margin:0 auto;}
+    .carousel-screen{width:100%;border-radius:16px;overflow:hidden;border:1px solid rgba(139,92,246,0.25);box-shadow:0 32px 80px rgba(0,0,0,0.7);background:#0d1525;position:relative;}
+    .carousel-slides{position:relative;height:480px;}
+    .carousel-slide{position:absolute;inset:0;opacity:0;transition:opacity 2s ease;}
+    .carousel-slide.active{opacity:1;}
+    .carousel-slide img{width:100%;height:430px;object-fit:cover;object-position:top left;display:block;}
+    .carousel-footer{display:flex;align-items:center;gap:12px;padding:14px 20px;background:rgba(8,14,26,0.95);border-top:1px solid rgba(139,92,246,0.15);height:50px;}
+    .carousel-dot-accent{width:7px;height:7px;border-radius:50%;background:var(--violet);flex-shrink:0;}
+    .carousel-title-text{font-family:'Unbounded',sans-serif;font-size:12px;font-weight:800;color:var(--text);}
+
+    .features-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+    .features-grid-2{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:16px;}
+
+    .feature-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;transition:all 0.2s;position:relative;overflow:hidden;}
+    .feature-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent,var(--violet));opacity:0;transition:opacity 0.2s;}
+    .feature-card:hover{border-color:var(--border2);transform:translateY(-2px);}
+    .feature-card:hover::before{opacity:1;}
+
+    .feature-ss{width:100%;border-radius:8px;margin-bottom:14px;border:1px solid rgba(255,255,255,0.06);box-shadow:0 8px 32px rgba(0,0,0,0.5);aspect-ratio:16/9;overflow:hidden;background:var(--border);}
+    .feature-ss img{width:100%;height:100%;object-fit:cover;object-position:top;border-radius:8px;transition:transform 0.4s ease;}
+    .feature-card:hover .feature-ss img{transform:scale(1.03);}
+
+    .feature-title{font-family:'Unbounded',sans-serif;font-size:12px;font-weight:800;margin-bottom:6px;letter-spacing:-0.01em;}
+    .feature-desc{font-size:12px;color:var(--muted);line-height:1.55;}
+
+    .privacy-block{background:linear-gradient(135deg,rgba(139,92,246,0.07),rgba(139,92,246,0.02));border:1px solid rgba(139,92,246,0.18);border-radius:24px;padding:56px 48px;display:block;}
+    .privacy-list{list-style:none;display:flex;flex-direction:column;gap:14px;}
+    .privacy-item{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--muted);}
+    .check{width:26px;height:26px;border-radius:50%;flex-shrink:0;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.28);color:var(--emerald);font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;}
+
+    .pricing-card{background:var(--card);border:1px solid rgba(139,92,246,0.28);border-radius:24px;padding:48px;max-width:460px;margin:0 auto;text-align:center;position:relative;overflow:hidden;}
+    .pricing-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--violet),var(--amber));}
+    .pricing-badge{display:inline-block;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.22);color:var(--emerald);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:24px;}
+    .pricing-price{font-family:'Unbounded',sans-serif;font-size:60px;font-weight:900;letter-spacing:-0.04em;line-height:1;margin-bottom:6px;}
+    .pricing-price sup{font-size:26px;vertical-align:super;}
+    .pricing-desc{font-size:13px;color:var(--sub);margin-bottom:28px;}
+    .pricing-features{list-style:none;text-align:left;display:flex;flex-direction:column;gap:12px;margin-bottom:32px;}
+    .pricing-features li{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);}
+    .pricing-features li::before{content:'✓';color:var(--emerald);font-weight:800;flex-shrink:0;}
+
+    .faq-list{display:flex;flex-direction:column;gap:10px;max-width:680px;}
+    .faq-item{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+    .faq-q{width:100%;text-align:left;background:none;border:none;color:var(--text);font-size:14px;font-weight:500;padding:18px 22px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:'Space Grotesk',sans-serif;}
+    .faq-q .icon{transition:transform 0.2s;font-size:18px;color:var(--sub);}
+    .faq-item.open .faq-q .icon{transform:rotate(45deg);}
+    .faq-a{font-size:13px;color:var(--muted);padding:0 22px;max-height:0;overflow:hidden;transition:all 0.3s;line-height:1.7;}
+    .faq-item.open .faq-a{max-height:200px;padding:0 22px 18px;}
+
+    footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1;flex-wrap:wrap;gap:16px;}
+    .footer-copy{font-size:12px;color:var(--sub);}
+    .footer-links{display:flex;gap:20px;}
+    .footer-links a{font-size:12px;color:var(--sub);text-decoration:none;transition:color 0.15s;}
+    .footer-links a:hover{color:var(--violet);}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+    .reveal{opacity:0;transform:translateY(28px);transition:all 0.65s ease;}
+    .reveal.visible{opacity:1;transform:translateY(0);}
+
+    @media(max-width:900px){
+      .features-grid,.features-grid-2{grid-template-columns:repeat(2,1fr);}
+    }
+    @media(max-width:600px){
+      .navbar{padding:12px 20px;}
+      .features-grid,.features-grid-2{grid-template-columns:1fr;}
+      .privacy-block{grid-template-columns:1fr;padding:32px 20px;}
+      footer{flex-direction:column;text-align:center;padding:28px 20px;}
+      .stats{gap:28px;}
+      .hero-symbol{width:140px;height:140px;}
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-logo"><span class="q">Q</span><span class="uan">uan</span><span class="t">T</span><span class="rad">rad</span></div>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <a href="#pricing" class="btn-outline" style="padding:8px 16px;font-size:13px;" data-fr="Acheter" data-en="Buy">Acheter</a>
+    <div class="lang-switcher">
+      <button class="lang-btn active" onclick="setLang('fr')">FR</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-glow"></div>
+  <svg class="hero-symbol" viewBox="200 148 280 280" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="gV" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#c4b5fd"/><stop offset="100%" stop-color="#7c3aed"/></linearGradient>
+      <linearGradient id="gG" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#6ee7b7"/><stop offset="100%" stop-color="#047857"/></linearGradient>
+      <linearGradient id="gB1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#a78bfa"/><stop offset="100%" stop-color="#5b21b6"/></linearGradient>
+      <linearGradient id="gB2" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#c4b5fd"/><stop offset="100%" stop-color="#7c3aed"/></linearGradient>
+      <linearGradient id="gB3" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ddd6fe"/><stop offset="100%" stop-color="#a78bfa"/></linearGradient>
+      <linearGradient id="gB4" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ede9fe"/><stop offset="100%" stop-color="#c4b5fd"/></linearGradient>
+      <linearGradient id="gArr" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#fcd34d"/></linearGradient>
+      <filter id="fV2"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <filter id="fA2"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <clipPath id="qClip2"><circle cx="340" cy="290" r="86"/></clipPath>
+      <clipPath id="bClip2"><polygon points="284,316 302,298 317,310 336,284 352,295 372,262 384,247 391,247 391,335 284,335"/></clipPath>
+    </defs>
+    <circle cx="340" cy="290" r="90" fill="none" stroke="url(#gV)" stroke-width="13" stroke-dasharray="493 73" stroke-dashoffset="26" stroke-linecap="round" filter="url(#fV2)"/>
+    <line x1="397" y1="348" x2="430" y2="382" stroke="url(#gG)" stroke-width="13" stroke-linecap="round"/>
+    <g clip-path="url(#qClip2)">
+      <g clip-path="url(#bClip2)">
+        <rect x="289" y="304" width="14" height="31" rx="4" fill="url(#gB1)"/>
+        <rect x="311" y="295" width="14" height="40" rx="4" fill="url(#gB2)"/>
+        <rect x="333" y="284" width="14" height="51" rx="4" fill="url(#gB3)"/>
+        <rect x="355" y="271" width="14" height="64" rx="4" fill="url(#gB4)"/>
+        <rect x="377" y="255" width="14" height="80" rx="4" fill="url(#gB4)" opacity="0.75"/>
+      </g>
+      <polyline points="284,316 302,298 317,310 336,284 352,295 372,262 384,247" fill="none" stroke="url(#gArr)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#fA2)"/>
+      <polygon points="396,233 391,253 377,241" fill="url(#gArr)" filter="url(#fA2)"/>
+    </g>
+  </svg>
+
+  <h1 class="hero-title">
+    <span class="v" data-fr="Analysez." data-en="Analyse.">Analysez.</span><br/>
+    <span style="color:var(--text)" data-fr="Progressez." data-en="Improve.">Progressez.</span><br/>
+    <span class="a" data-fr="Tradez mieux." data-en="Trade smarter.">Tradez mieux.</span>
+  </h1>
+  <p class="hero-slogan" data-fr="Le journal de trading desktop conçu pour les traders. Analysez vos performances, respectez votre plan." data-en="The desktop trading journal built for traders. Analyse your performance, stick to your plan.">Le journal de trading desktop conçu pour les traders. Analysez vos performances, respectez votre plan.</p>
+  <p class="hero-tagline">
+    <span data-fr="100% local" data-en="100% local">100% local</span> &nbsp;·&nbsp;
+    <span data-fr="Zéro cloud" data-en="Zero cloud">Zéro cloud</span> &nbsp;·&nbsp;
+    <span data-fr="Vos données sur votre machine" data-en="Your data on your machine">Vos données sur votre machine</span>
+  </p>
+  <div class="hero-cta">
+    <a href="#pricing" class="btn-primary" data-fr="⬇&nbsp; Télécharger — 129,99 €" data-en="⬇&nbsp; Download — €129.99">⬇&nbsp; Télécharger — 129,99 €</a>
+    <a href="#features" class="btn-outline" data-fr="Voir les fonctionnalités" data-en="See features">Voir les fonctionnalités</a>
+  </div>
+  <p class="hero-price" data-fr="<strong>7 jours d'essai gratuit</strong> · Achat unique · Aucun abonnement" data-en="<strong>7-day free trial</strong> · One-time purchase · No subscription"><strong>7 jours d'essai gratuit</strong> · Achat unique · Aucun abonnement</p>
+</div>
+
+<div class="divider"></div>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-label" data-fr="Fonctionnalités" data-en="Features">Fonctionnalités</div>
+  <h2 class="section-title reveal" data-fr="Tout pour progresser." data-en="Everything to improve.">Tout pour progresser.</h2>
+  <p class="section-sub reveal" data-fr="De la saisie de vos trades à l'analyse de vos statistiques, QuanTrad couvre l'intégralité du cycle de trading." data-en="From logging your trades to analysing your statistics, QuanTrad covers the entire trading cycle.">De la saisie de vos trades à l'analyse de vos statistiques, QuanTrad couvre l'intégralité du cycle de trading.</p>
+
+  <!-- CAROUSEL -->
+  <div class="carousel-wrap reveal">
+    <div class="carousel-screen">
+      <div class="carousel-slides">
+        <div class="carousel-slide active"><img src="screenshots/ss_dashboard.png" alt="Dashboard"/></div>
+        <div class="carousel-slide"><img src="screenshots/ss_trades.png" alt="Trades"/></div>
+        <div class="carousel-slide"><img src="screenshots/ss_calc.png" alt="Calculatrice"/></div>
+        <div class="carousel-slide"><img src="screenshots/ss_analyse.png" alt="Analyse"/></div>
+        <div class="carousel-slide"><img src="screenshots/ss_calendrier.png" alt="Calendrier"/></div>
+        <div class="carousel-slide"><img src="screenshots/ss_plan.png" alt="Plan"/></div>
+        <div class="carousel-slide"><img src="screenshots/ss_objectifs.png" alt="Objectifs"/></div>
+        <div class="carousel-slide"><img src="screenshots/ss_backtest.png" alt="Backtest"/></div>
+      </div>
+      <div class="carousel-footer">
+        <span class="carousel-dot-accent"></span>
+        <span class="carousel-title-text" id="carouselTitle">Dashboard temps réel</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PRIVACY -->
+<section id="privacy">
+  <div class="privacy-block reveal">
+    <div>
+      <div class="section-label" data-fr="Confidentialité" data-en="Privacy">Confidentialité</div>
+      <h2 class="section-title" style="font-size:clamp(26px,3.5vw,40px);margin-bottom:16px;" data-fr="Vos données vous appartiennent." data-en="Your data belongs to you.">Vos données vous appartiennent.</h2>
+      <p style="font-size:14px;color:var(--muted);margin-bottom:28px;line-height:1.7;" data-fr="QuanTrad est 100% local. Aucun serveur, aucun compte, aucune donnée envoyée en ligne." data-en="QuanTrad is 100% local. No server, no account, no data sent online.">QuanTrad est 100% local. Aucun serveur, aucun compte, aucune donnée envoyée en ligne.</p>
+      <ul class="privacy-list">
+        <li class="privacy-item"><div class="check">✓</div><span data-fr="Données stockées uniquement sur votre machine" data-en="Data stored only on your machine">Données stockées uniquement sur votre machine</span></li>
+        <li class="privacy-item"><div class="check">✓</div><span data-fr="Fonctionne entièrement hors ligne" data-en="Works entirely offline">Fonctionne entièrement hors ligne</span></li>
+        <li class="privacy-item"><div class="check">✓</div><span data-fr="Export ZIP / CSV / PDF pour vos sauvegardes" data-en="ZIP / CSV / PDF export for backups">Export ZIP / CSV / PDF pour vos sauvegardes</span></li>
+        <li class="privacy-item"><div class="check">✓</div><span data-fr="Aucun abonnement, aucune surprise" data-en="No subscription, no surprises">Aucun abonnement, aucune surprise</span></li>
+      </ul>
+    </div>
+    
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PRICING -->
+<section id="pricing" style="display:flex;flex-direction:column;align-items:center;text-align:center;">
+  <div class="section-label" data-fr="Tarif" data-en="Pricing">Tarif</div>
+  <h2 class="section-title reveal" data-fr="Payez une fois. Tradez à vie." data-en="Pay once. Trade forever.">Payez une fois. Tradez à vie.</h2>
+  <div style="height:48px;"></div>
+  <div class="pricing-card reveal">
+    
+    <div class="pricing-badge" data-fr="Achat unique" data-en="One-time purchase">Achat unique</div>
+    <div class="pricing-price">129<span style="font-size:28px">,99</span><sup>€</sup></div>
+    
+    <ul class="pricing-features">
+      <li data-fr="Windows & macOS" data-en="Windows & macOS">Windows & macOS</li>
+      <li data-fr="Trades & comptes illimités" data-en="Unlimited trades & accounts">Trades & comptes illimités</li>
+      <li data-fr="Toutes les fonctionnalités incluses" data-en="All features included">Toutes les fonctionnalités incluses</li>
+      <li data-fr="7 jours d'essai gratuit — sans CB" data-en="7-day free trial — no credit card">7 jours d'essai gratuit — sans CB</li>
+      <li data-fr="100% local — zéro abonnement" data-en="100% local — zero subscription">100% local — zéro abonnement</li>
+    </ul>
+    <a href="https://quantrad.lemonsqueezy.com/buy" class="btn-primary" style="width:100%;justify-content:center;font-size:16px;padding:18px;" data-fr="⬇&nbsp; Télécharger QuanTrad" data-en="⬇&nbsp; Download QuanTrad">⬇&nbsp; Télécharger QuanTrad</a>
+    <p style="margin-top:14px;font-size:11px;color:var(--sub);" data-fr="Paiement sécurisé via Lemon Squeezy · TVA incluse" data-en="Secure payment via Lemon Squeezy · VAT included">Paiement sécurisé via Lemon Squeezy · TVA incluse</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="section-label">FAQ</div>
+  <h2 class="section-title reveal" data-fr="Questions fréquentes" data-en="Frequently asked questions">Questions fréquentes</h2>
+  <div class="faq-list">
+    <div class="faq-item reveal"><button class="faq-q" onclick="toggleFaq(this)"><span data-fr="QuanTrad fonctionne-t-il sans connexion internet ?" data-en="Does QuanTrad work without internet?">QuanTrad fonctionne-t-il sans connexion internet ?</span><span class="icon">+</span></button><div class="faq-a" data-fr="Oui, totalement. QuanTrad est 100% local. La connexion n'est utilisée qu'une fois pour valider votre licence." data-en="Yes, completely. QuanTrad is 100% local. A connection is only used once to validate your license.">Oui, totalement. QuanTrad est 100% local. La connexion n'est utilisée qu'une fois pour valider votre licence.</div></div>
+    <div class="faq-item reveal"><button class="faq-q" onclick="toggleFaq(this)"><span data-fr="Comment fonctionne l'essai gratuit ?" data-en="How does the free trial work?">Comment fonctionne l'essai gratuit ?</span><span class="icon">+</span></button><div class="faq-a" data-fr="Téléchargez et utilisez toutes les fonctionnalités pendant 7 jours. Aucune carte bancaire requise." data-en="Download and use all features for 7 days. No credit card required.">Téléchargez et utilisez toutes les fonctionnalités pendant 7 jours. Aucune carte bancaire requise.</div></div>
+    <div class="faq-item reveal"><button class="faq-q" onclick="toggleFaq(this)"><span data-fr="Y a-t-il des frais récurrents ?" data-en="Are there recurring fees?">Y a-t-il des frais récurrents ?</span><span class="icon">+</span></button><div class="faq-a" data-fr="Non. QuanTrad est un achat unique à 129,99€. Aucun abonnement, aucun frais caché." data-en="No. QuanTrad is a one-time purchase at €129.99. No subscription, no hidden fees.">Non. QuanTrad est un achat unique à 129,99€. Aucun abonnement, aucun frais caché.</div></div>
+    <div class="faq-item reveal"><button class="faq-q" onclick="toggleFaq(this)"><span data-fr="Puis-je exporter mes données ?" data-en="Can I export my data?">Puis-je exporter mes données ?</span><span class="icon">+</span></button><div class="faq-a" data-fr="Oui. Export CSV, ZIP complet ou PDF. Réimportez sur une autre machine à tout moment." data-en="Yes. CSV, full ZIP or PDF export. Reimport on another machine at any time.">Oui. Export CSV, ZIP complet ou PDF. Réimportez sur une autre machine à tout moment.</div></div>
+    <div class="faq-item reveal"><button class="faq-q" onclick="toggleFaq(this)"><span data-fr="Sur combien de machines puis-je installer QuanTrad ?" data-en="On how many machines can I install QuanTrad?">Sur combien de machines puis-je installer QuanTrad ?</span><span class="icon">+</span></button><div class="faq-a" data-fr="Votre licence vous permet d'installer QuanTrad sur vos appareils personnels Windows et Mac." data-en="Your license allows you to install QuanTrad on your personal Windows and Mac devices.">Votre licence vous permet d'installer QuanTrad sur vos appareils personnels Windows et Mac.</div></div>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <div class="nav-logo" style="font-size:15px;margin-bottom:4px;"><span class="q">Q</span><span class="uan">uan</span><span class="t">T</span><span class="rad">rad</span></div>
+    <div class="footer-copy" data-fr="© 2026 QuanTrad. Tous droits réservés." data-en="© 2026 QuanTrad. All rights reserved.">© 2026 QuanTrad. Tous droits réservés.</div>
+  </div>
+
+</footer>
+
+<script>
+  // CAROUSEL
+  let current = 0;
+  const titles = {
+    fr: ['Dashboard temps réel','Journal des trades','Calculatrice de position','Analyse avancée','Calendrier & Journal','Plan de trading','Objectifs','Backtest'],
+    en: ['Real-time Dashboard','Trade Journal','Position Calculator','Advanced Analytics','Calendar & Journal','Trading Plan','Goals','Backtest']
+  };
+  const slides = document.querySelectorAll('.carousel-slide');
+
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    current = n;
+    slides[current].classList.add('active');
+    document.getElementById('carouselTitle').textContent = titles[lang][current];
+  }
+
+  setInterval(() => goTo((current + 1) % 8), 3500);
+
+  let lang='fr';
+  function setLang(l){lang=l;document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));document.querySelectorAll('[data-fr]').forEach(el=>{const v=el.getAttribute('data-'+l);if(v)el.innerHTML=v;});document.getElementById('carouselTitle').textContent=titles[l][current];}
+  function toggleFaq(btn){const item=btn.closest('.faq-item');const open=item.classList.contains('open');document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));if(!open)item.classList.add('open');}
+  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

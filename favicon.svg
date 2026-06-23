@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="gV" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#c4b5fd"/><stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+    <linearGradient id="gG" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6ee7b7"/><stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+    <linearGradient id="gB1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#a78bfa"/><stop offset="100%" stop-color="#5b21b6"/>
+    </linearGradient>
+    <linearGradient id="gB2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#c4b5fd"/><stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+    <linearGradient id="gB3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ddd6fe"/><stop offset="100%" stop-color="#a78bfa"/>
+    </linearGradient>
+    <linearGradient id="gB4" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ede9fe"/><stop offset="100%" stop-color="#c4b5fd"/>
+    </linearGradient>
+    <linearGradient id="gArr" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#fcd34d"/>
+    </linearGradient>
+    <filter id="fV"><feGaussianBlur stdDeviation="10" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="fA"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <clipPath id="qClip"><circle cx="256" cy="256" r="155"/></clipPath>
+    <clipPath id="bClip">
+      <polygon points="153,303 186,272 213,294 248,247 277,267 314,206 325,191 348,191 348,337 153,337"/>
+    </clipPath>
+  </defs>
+
+  <rect width="512" height="512" rx="96" fill="#080e1a"/>
+
+  <rect x="40" y="40" width="432" height="432" rx="100" fill="#0b1120"/>
+  <rect x="40" y="40" width="432" height="432" rx="100" fill="none" stroke="rgba(139,92,246,0.18)" stroke-width="2"/>
+
+  <circle cx="256" cy="256" r="162" fill="none" stroke="url(#gV)" stroke-width="23"
+    stroke-dasharray="887 131" stroke-dashoffset="47" stroke-linecap="round" filter="url(#fV)"/>
+
+  <line x1="359" y1="361" x2="418" y2="422" stroke="url(#gG)" stroke-width="23" stroke-linecap="round"/>
+
+  <g clip-path="url(#qClip)">
+    <g clip-path="url(#bClip)">
+      <rect x="162" y="281" width="25" height="56" rx="7" fill="url(#gB1)"/>
+      <rect x="201" y="265" width="25" height="72" rx="7" fill="url(#gB2)"/>
+      <rect x="241" y="245" width="25" height="92" rx="7" fill="url(#gB3)"/>
+      <rect x="280" y="221" width="25" height="116" rx="7" fill="url(#gB4)"/>
+      <rect x="320" y="192" width="25" height="145" rx="7" fill="url(#gB4)" opacity="0.75"/>
+    </g>
+    <line x1="162" y1="337" x2="345" y2="337" stroke="#0b1120" stroke-width="9"/>
+    <polyline points="153,303 186,272 213,294 248,247 277,267 314,206 325,191"
+      fill="none" stroke="url(#gArr)" stroke-width="10"
+      stroke-linecap="round" stroke-linejoin="round" filter="url(#fA)"/>
+    <polygon points="345,165 336,199 315,183" fill="url(#gArr)" filter="url(#fA)"/>
+  </g>
+</svg>
