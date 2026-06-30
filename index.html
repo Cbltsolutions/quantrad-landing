@@ -258,7 +258,10 @@
       <li data-fr="7 jours d'essai gratuit — sans CB" data-en="7-day free trial — no credit card">7 jours d'essai gratuit — sans CB</li>
       <li data-fr="100% local — zéro abonnement" data-en="100% local — zero subscription">100% local — zéro abonnement</li>
     </ul>
-    <a href="https://quantrad.lemonsqueezy.com/buy" class="btn-primary" style="width:100%;justify-content:center;font-size:16px;padding:18px;" data-fr="⬇&nbsp; Télécharger QuanTrad" data-en="⬇&nbsp; Download QuanTrad">⬇&nbsp; Télécharger QuanTrad</a>
+     <div style="display:flex;gap:10px;width:100%;">
+      <a href="https://github.com/Cbltsolutions/QuanTrad/releases/download/v1.0.0/QuanTrad_1.0.0_x64-setup.exe" class="btn-primary" style="flex:1;justify-content:center;font-size:14px;padding:16px 12px;" data-fr="⬇&nbsp; Windows" data-en="⬇&nbsp; Windows">⬇&nbsp; Windows</a>
+      <a href="https://github.com/Cbltsolutions/QuanTrad/releases/download/v1.0.0/QuanTrad_1.0.0_universal.dmg" class="btn-primary" style="flex:1;justify-content:center;font-size:14px;padding:16px 12px;" data-fr="⬇&nbsp; Mac" data-en="⬇&nbsp; Mac">⬇&nbsp; Mac</a>
+    </div>
     <p style="margin-top:14px;font-size:11px;color:var(--sub);" data-fr="Paiement sécurisé via Lemon Squeezy · TVA incluse" data-en="Secure payment via Lemon Squeezy · VAT included">Paiement sécurisé via Lemon Squeezy · TVA incluse</p>
   </div>
 </section>
@@ -304,8 +307,7 @@
 
   setInterval(() => goTo((current + 1) % 8), 3500);
 
-  let lang='fr';
-  function setLang(l){lang=l;document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));document.querySelectorAll('[data-fr]').forEach(el=>{const v=el.getAttribute('data-'+l);if(v)el.innerHTML=v;});document.getElementById('carouselTitle').textContent=titles[l][current];}
+  let lang='fr';function setLang(l){lang=l;document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));document.querySelectorAll('[data-fr]').forEach(el=>{const v=el.getAttribute('data-'+l);if(v)el.innerHTML=v;});document.getElementById('carouselTitle').textContent=titles[l][current];}
   function toggleFaq(btn){const item=btn.closest('.faq-item');const open=item.classList.contains('open');document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));if(!open)item.classList.add('open');}
   const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
   document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
